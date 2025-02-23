@@ -66,10 +66,17 @@
       var data = {};
       formData.forEach((value, key) => data[key] = value);
       fetch("https://script.google.com/macros/s/AKfycbz7S6z6wmJJmvqBagEUz1Tu1NxQBk0RnHf8v-23EaJy5dBkhNfP5uZxyFfWhqB2uOtbFA/exec", {
-        method: "POST",
-        body: JSON.stringify(data)
-      }).then(response => alert("Đã gửi thành công!"));
-    };
+  method: "POST",
+  mode: "no-cors", // Thêm để tránh vấn đề CORS
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+}).then(response => {
+  if (!response.ok) throw new Error("Gửi thất bại");
+  return response.text();
+}).then(text => alert("Đã gửi thành công: " + text))
+.catch(error => alert("Lỗi: " + error));
   </script>
 </body>
 </html>
