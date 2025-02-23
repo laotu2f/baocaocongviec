@@ -79,19 +79,26 @@
       var data = {};
       formData.forEach((value, key) => data[key] = value || "");
 
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://script.google.com/macros/s/AKfycbz7S6z6wmJJmvqBagEUz1Tu1NxQBk0RnHf8v-23EaJy5dBkhNfP5uZxyFfWhqB2uOtbFA/exec", true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200 || xhr.status === 0) {
-            alert("Đã gửi thành công!");
-          } else {
-            alert("Lỗi gửi dữ liệu: " + xhr.status + " - " + xhr.statusText);
-          }
-        }
-      };
-      xhr.send(JSON.stringify(data));
+      fetch("https://script.google.com/macros/s/AKfycbz7S6z6wmJJmvqBagEUz1Tu1NxQBk0RnHf8v-23EaJy5dBkhNfP5uZxyFfWhqB2uOtbFA/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+        mode: "cors",
+        redirect: "follow"
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Gửi thất bại: " + response.status);
+        return response.text();
+      })
+      .then(text => {
+        alert("Đã gửi thành công: " + text);
+      })
+      .catch(error => {
+        alert("Lỗi: " + error.message);
+        console.error(error);
+      });
     };
   </script>
 </body>
