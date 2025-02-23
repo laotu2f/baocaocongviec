@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Báo cáo công việc</title>
+</head>
+<body>
+  <form id="baoCaoForm">
+    <label>Tên nhân viên:</label>
+    <select name="tenNhanVien">
+      <option value="Nhân viên A">Nhân viên A</option>
+      <option value="Nhân viên B">Nhân viên B</option>
+      <!-- Thêm 20-30 tên nhân viên vào đây -->
+    </select><br>
+
+    <label>Ngày:</label>
+    <input type="date" name="ngay" value="2025-02-23"><br>
+
+    <label>Loại công việc:</label>
+    <select name="loaiCongViec" onchange="showFields(this.value)">
+      <option value="Hẹn khách hàng">Hẹn khách hàng</option>
+      <option value="Setup/Renew">Setup/Renew</option>
+      <option value="Khác">Khác</option>
+    </select><br>
+
+    <div id="fields">
+      <label>Họ tên khách hàng:</label>
+      <input type="text" name="hoTenKH"><br>
+      <label>Số điện thoại:</label>
+      <input type="text" name="sdt"><br>
+      <label>Giờ:</label>
+      <input type="time" name="gio"><br>
+      <label>Số tiền:</label>
+      <input type="text" name="soTien"><br>
+      <label>Ghi chú:</label>
+      <input type="text" name="ghiChu"><br>
+    </div>
+
+    <button type="button" onclick="themKhachHang()">Thêm khách hàng</button>
+    <button type="submit">Gửi</button>
+  </form>
+
+  <script>
+    function showFields(loai) {
+      var fields = document.getElementById("fields");
+      if (loai == "Hẹn khách hàng") {
+        fields.innerHTML = '<label>Họ tên khách hàng:</label><input type="text" name="hoTenKH"><br>' +
+                          '<label>Số điện thoại:</label><input type="text" name="sdt"><br>' +
+                          '<label>Giờ:</label><input type="time" name="gio">';
+      } else if (loai == "Setup/Renew") {
+        fields.innerHTML = '<label>Họ tên khách hàng:</label><input type="text" name="hoTenKH"><br>' +
+                          '<label>Số tiền:</label><input type="text" name="soTien"><br>' +
+                          '<label>Giờ:</label><input type="time" name="gio">';
+      } else {
+        fields.innerHTML = '<label>Ghi chú:</label><input type="text" name="ghiChu">';
+      }
+    }
+
+    function themKhachHang() {
+      // Thêm logic để hiển thị form mới cho khách hàng tiếp theo
+      alert("Chức năng thêm khách hàng đang phát triển!");
+    }
+
+    document.getElementById("baoCaoForm").onsubmit = function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      var data = {};
+      formData.forEach((value, key) => data[key] = value);
+      fetch("URL_CỦA_WEB_APP_TỪ_APPS_SCRIPT", {
+        method: "POST",
+        body: JSON.stringify(data)
+      }).then(response => alert("Đã gửi thành công!"));
+    };
+  </script>
+</body>
+</html>
