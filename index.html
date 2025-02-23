@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Báo cáo công việc</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Tối ưu giao diện trên điện thoại -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <form id="baoCaoForm">
@@ -10,7 +10,6 @@
     <select name="tenNhanVien">
       <option value="Nhân viên A">Nhân viên A</option>
       <option value="Nhân viên B">Nhân viên B</option>
-      <!-- Thêm 20-30 tên nhân viên vào đây -->
     </select><br>
 
     <label>Ngày:</label>
@@ -41,7 +40,6 @@
   </form>
 
   <script>
-    // Tự động điền ngày hiện tại
     document.getElementById("ngay").value = new Date().toISOString().split("T")[0];
 
     function showFields(loai) {
@@ -79,22 +77,19 @@
       e.preventDefault();
       var formData = new FormData(this);
       var data = {};
-      formData.forEach((value, key) => data[key] = value || ""); // Đảm bảo gửi giá trị rỗng nếu không nhập
+      formData.forEach((value, key) => data[key] = value || "");
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "https://script.google.com/macros/s/AKfycbz7S6z6wmJJmvqBagEUz1Tu1NxQBk0RnHf8v-23EaJy5dBkhNfP5uZxyFfWhqB2uOtbFA/exec", true);
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-          if (xhr.status === 200 || xhr.status === 0) { // status 0 khi dùng no-cors hoặc tương thích điện thoại
+          if (xhr.status === 200 || xhr.status === 0) {
             alert("Đã gửi thành công!");
           } else {
-            alert("Lỗi: " + xhr.statusText);
+            alert("Lỗi gửi dữ liệu: " + xhr.status + " - " + xhr.statusText);
           }
         }
-      };
-      xhr.onerror = function() {
-        alert("Lỗi kết nối!");
       };
       xhr.send(JSON.stringify(data));
     };
