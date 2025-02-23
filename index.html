@@ -65,7 +65,7 @@
       var formData = new FormData(this);
       var data = {};
       formData.forEach((value, key) => data[key] = value);
-      fetch("URL_CỦA_WEB_APP_TỪ_APPS_SCRIPT", {
+      fetch("https://script.google.com/macros/s/AKfycbz7S6z6wmJJmvqBagEUz1Tu1NxQBk0RnHf8v-23EaJy5dBkhNfP5uZxyFfWhqB2uOtbFA/exec", {
         method: "POST",
         body: JSON.stringify(data)
       }).then(response => alert("Đã gửi thành công!"));
