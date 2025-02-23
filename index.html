@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Báo cáo công việc</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <form id="baoCaoForm">
@@ -10,10 +9,11 @@
     <select name="tenNhanVien">
       <option value="Nhân viên A">Nhân viên A</option>
       <option value="Nhân viên B">Nhân viên B</option>
+      <!-- Thêm 20-30 tên nhân viên vào đây -->
     </select><br>
 
     <label>Ngày:</label>
-    <input type="date" name="ngay" id="ngay"><br>
+    <input type="date" name="ngay" value="2025-02-23"><br>
 
     <label>Loại công việc:</label>
     <select name="loaiCongViec" onchange="showFields(this.value)">
@@ -40,15 +40,13 @@
   </form>
 
   <script>
-    document.getElementById("ngay").value = new Date().toISOString().split("T")[0];
-
     function showFields(loai) {
       var fields = document.getElementById("fields");
-      if (loai === "Hẹn khách hàng") {
+      if (loai == "Hẹn khách hàng") {
         fields.innerHTML = '<label>Họ tên khách hàng:</label><input type="text" name="hoTenKH"><br>' +
                           '<label>Số điện thoại:</label><input type="text" name="sdt"><br>' +
                           '<label>Giờ:</label><input type="time" name="gio">';
-      } else if (loai === "Setup/Renew") {
+      } else if (loai == "Setup/Renew") {
         fields.innerHTML = '<label>Họ tên khách hàng:</label><input type="text" name="hoTenKH"><br>' +
                           '<label>Số tiền:</label><input type="text" name="soTien"><br>' +
                           '<label>Giờ:</label><input type="time" name="gio">';
@@ -57,49 +55,28 @@
       }
     }
 
-    let khachHangCount = 1;
     function themKhachHang() {
-      if (khachHangCount >= 10) {
-        alert("Đã đạt tối đa 10 khách hàng!");
-        return;
-      }
-      khachHangCount++;
-      var fields = document.getElementById("fields");
-      fields.innerHTML += '<hr>' +
-        '<label>Họ tên khách hàng ' + khachHangCount + ':</label><input type="text" name="hoTenKH' + khachHangCount + '"><br>' +
-        '<label>Số điện thoại ' + khachHangCount + ':</label><input type="text" name="sdt' + khachHangCount + '"><br>' +
-        '<label>Giờ ' + khachHangCount + ':</label><input type="time" name="gio' + khachHangCount + '"><br>' +
-        '<label>Số tiền ' + khachHangCount + ':</label><input type="text" name="soTien' + khachHangCount + '"><br>' +
-        '<label>Ghi chú ' + khachHangCount + ':</label><input type="text" name="ghiChu' + khachHangCount + '"><br>';
+      // Thêm logic để hiển thị form mới cho khách hàng tiếp theo
+      alert("Chức năng thêm khách hàng đang phát triển!");
     }
 
     document.getElementById("baoCaoForm").onsubmit = function(e) {
       e.preventDefault();
       var formData = new FormData(this);
       var data = {};
-      formData.forEach((value, key) => data[key] = value || "");
-
+      formData.forEach((value, key) => data[key] = value);
       fetch("https://script.google.com/macros/s/AKfycbz7S6z6wmJJmvqBagEUz1Tu1NxQBk0RnHf8v-23EaJy5dBkhNfP5uZxyFfWhqB2uOtbFA/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data),
-        mode: "cors",
-        redirect: "follow"
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Gửi thất bại: " + response.status);
-        return response.text();
-      })
-      .then(text => {
-        alert("Đã gửi thành công: " + text);
-      })
-      .catch(error => {
-        alert("Lỗi: " + error.message);
-        console.error(error);
-      });
-    };
+  method: "POST",
+  mode: "no-cors", // Thêm để tránh vấn đề CORS
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+}).then(response => {
+  if (!response.ok) throw new Error("Gửi thất bại");
+  return response.text();
+}).then(text => alert("Đã gửi thành công: " + text))
+.catch(error => alert("Lỗi: " + error));
   </script>
 </body>
 </html>
