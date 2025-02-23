@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Báo cáo công việc</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Tối ưu giao diện cho điện thoại -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <form id="baoCaoForm">
@@ -10,7 +10,6 @@
     <select name="tenNhanVien">
       <option value="Nhân viên A">Nhân viên A</option>
       <option value="Nhân viên B">Nhân viên B</option>
-      <!-- Thêm 20-30 tên nhân viên vào đây -->
     </select><br>
 
     <label>Ngày:</label>
@@ -41,7 +40,6 @@
   </form>
 
   <script>
-    // Tự động điền ngày hiện tại
     document.getElementById("ngay").value = new Date().toISOString().split("T")[0];
 
     function showFields(loai) {
@@ -79,7 +77,7 @@
       e.preventDefault();
       var formData = new FormData(this);
       var data = {};
-      formData.forEach((value, key) => data[key] = value || ""); // Gửi giá trị rỗng nếu không nhập
+      formData.forEach((value, key) => data[key] = value || "");
 
       fetch("https://script.google.com/macros/s/AKfycbz7S6z6wmJJmvqBagEUz1Tu1NxQBk0RnHf8v-23EaJy5dBkhNfP5uZxyFfWhqB2uOtbFA/exec", {
         method: "POST",
@@ -87,20 +85,17 @@
           "Content-Type": "application/json"
         },
         body: JSON.stringify(data),
-        redirect: "follow" // Xử lý redirect nếu có
+        mode: "no-cors",
+        redirect: "follow"
       })
       .then(response => {
-        if (!response.ok) throw new Error("Gửi thất bại: " + response.status);
-        return response.text();
-      })
-      .then(text => {
-        alert("Đã gửi thành công: " + text);
+        alert("Đã gửi thành công!");
       })
       .catch(error => {
         alert("Lỗi: " + error.message);
         console.error(error);
       });
-    }; // Đóng hàm đúng cách
+    };
   </script>
 </body>
 </html>
