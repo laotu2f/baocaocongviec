@@ -48,22 +48,22 @@
                     <input type="number" id="setupAmount" min="5000000" max="1000000000" placeholder="Nhập số tiền"
                         class="minimal-input w-full p-3 rounded-xl focus:outline-none">
                 </div>
-                <div>
+                <div id="nameSection">
                     <label class="block font-medium text-gray-700">Họ và Tên KH:</label>
                     <input type="text" id="customerName" placeholder="Nhập họ và tên" required
                         class="minimal-input w-full p-3 rounded-xl focus:outline-none">
                 </div>
-                <div id="phoneSection">
+                <div id="phoneSection" class="hidden">
                     <label class="block font-medium text-gray-700">Số điện thoại (10 số):</label>
                     <input type="tel" id="customerPhone" pattern="\\d{10}" minlength="10" maxlength="10" placeholder="Nhập số điện thoại"
                         class="minimal-input w-full p-3 rounded-xl focus:outline-none">
                 </div>
-                <div>
+                <div id="dateSection">
                     <label class="block font-medium text-gray-700">Ngày Hẹn:</label>
                     <input type="date" id="appointmentDate"
                         class="minimal-input w-full p-3 rounded-xl focus:outline-none">
                 </div>
-                <div>
+                <div id="timeSection">
                     <label class="block font-medium text-gray-700">Giờ Hẹn:</label>
                     <input type="time" id="appointmentTime"
                         class="minimal-input w-full p-3 rounded-xl focus:outline-none">
@@ -93,6 +93,9 @@
             document.getElementById("phoneSection").classList.toggle("hidden", type !== "appointment");
             document.getElementById("setupAmountSection").classList.toggle("hidden", type !== "setup");
             document.getElementById("noteSection").classList.toggle("hidden", type !== "note");
+            document.getElementById("nameSection").classList.toggle("hidden", type === "note");
+            document.getElementById("dateSection").classList.toggle("hidden", type === "note");
+            document.getElementById("timeSection").classList.toggle("hidden", type === "note");
         }
 
         document.getElementById("type").addEventListener("change", toggleFields);
@@ -123,7 +126,7 @@
             const time = document.getElementById("appointmentTime").value;
             const note = document.getElementById("noteContent").value;
 
-            if (!name || !date || !time || (type === "appointment" && !phone)) {
+            if (type !== "note" && (!name || !date || !time || (type === "appointment" && !phone))) {
                 alert("Vui lòng điền đầy đủ thông tin khách hàng.");
                 return;
             }
@@ -133,12 +136,19 @@
                 return;
             }
 
+            if (type === "note" && !note) {
+                alert("Vui lòng nhập ghi chú.");
+                return;
+            }
+
             const customerInfo = { name, phone, setupAmount, date, time, type, note };
             customers.push(customerInfo);
 
             const customerList = document.getElementById("customerItems");
             const newItem = document.createElement("li");
-            newItem.textContent = `${name} - ${type} - ${date} ${time}${type === "setup" ? ` - ${parseInt(setupAmount).toLocaleString()} VNĐ` : ""}${note ? ` - ${note}` : ""}`;
+            newItem.textContent = type === "note" 
+                ? `Ghi Chú: ${note}`
+                : `${name} - ${type} - ${date} ${time}${type === "setup" ? ` - ${parseInt(setupAmount).toLocaleString()} VNĐ` : ""}${note ? ` - ${note}` : ""}`;
             customerList.appendChild(newItem);
 
             document.getElementById("customerList").classList.remove("hidden");
