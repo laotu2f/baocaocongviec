@@ -26,8 +26,8 @@
         <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800">Đặt Lịch Khách Hàng</h2>
         <form id="appointmentForm" class="space-y-5">
             <div id="ptCodeSection">
-                <label class="block font-medium text-gray-700">STAFF CODE (5 ký tự):</label>
-                <input type="text" id="ptCode" pattern="\\d{5}" minlength="5" maxlength="5" placeholder="Nhập STAFF CODE" required
+                <label class="block font-medium text-gray-700">Mã PT (5 ký tự số):</label>
+                <input type="text" id="ptCode" pattern="\\d{5}" minlength="5" maxlength="5" placeholder="Nhập mã PT (VD: 30404)" required
                     class="minimal-input w-full p-3 rounded-xl focus:outline-none">
             </div>
             <div id="noteSection" class="hidden">
@@ -49,7 +49,7 @@
                         class="minimal-input w-full p-3 rounded-xl focus:outline-none">
                 </div>
                 <div id="nameSection">
-                    <label class="block font-medium text-gray-700">Họ và Tên :</label>
+                    <label class="block font-medium text-gray-700">Họ và Tên KH:</label>
                     <input type="text" id="customerName" placeholder="Nhập họ và tên" required
                         class="minimal-input w-full p-3 rounded-xl focus:outline-none">
                 </div>
@@ -73,7 +73,7 @@
                 <button type="button" id="addCustomer"
                     class="bg-blue-500 text-white p-3 rounded-xl w-1/2 hover:bg-blue-600 transition">Thêm Khách Hàng</button>
                 <button type="button" id="submitAll"
-                    class="bg-green-500 text-white p-3 rounded-xl w-1/2 hover:bg-green-600 transition">Gửi Báo Cáo</button>
+                    class="bg-green-500 text-white p-3 rounded-xl w-1/2 hover:bg-green-600 transition">Gửi Tất Cả</button>
             </div>
         </form>
         <div id="result" class="mt-4 text-green-500 font-semibold text-center hidden"></div>
@@ -109,8 +109,8 @@
             const ptCodeInput = document.getElementById("ptCode");
             if (!code) {
                 code = ptCodeInput.value;
-                if (code.length !== 6 || !/^[0-9]{6}$/.test(code)) {
-                    alert("Mã PT phải gồm 6 ký tự số.");
+                if (code.length !== 5 || !/^[0-9]{5}$/.test(code)) {
+                    alert("Mã PT phải gồm 5 ký tự số (VD: 30404).");
                     return;
                 }
                 ptCodeStored = code;
