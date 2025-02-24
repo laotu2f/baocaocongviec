@@ -155,35 +155,33 @@
 
             fetch(SCRIPT_URL, {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({
                     ptCode: code,
                     customers: customers
                 }),
-                headers: {
-                    "Content-Type": "application/json"
-                }
+                mode: "no-cors",
+                redirect: "follow"
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "Thành công") {
-                    document.getElementById("result").textContent = `Cảm ơn mã nhân viên ${code}, bạn đã gửi thành công ${customers.length} khách hàng!`;
-                    document.getElementById("result").classList.remove("hidden");
-                    setTimeout(() => {
-                        document.getElementById("result").classList.add("hidden");
-                        document.getElementById("customerItems").innerHTML = "";
-                        customers.length = 0;
-                        ptCodeStored = "";
-                        document.getElementById("ptCode").disabled = false;
-                        document.getElementById("ptCodeSection").classList.remove("hidden");
-                        document.getElementById("appointmentForm").reset();
-                        toggleFields();
-                    }, 4000);
-                } else {
-                    alert("Lỗi khi gửi dữ liệu: " + data.message);
-                }
+            .then(response => {
+                document.getElementById("result").textContent = `Cảm ơn mã nhân viên ${code}, bạn đã gửi thành công ${customers.length} khách hàng!`;
+                document.getElementById("result").classList.remove("hidden");
+                setTimeout(() => {
+                    document.getElementById("result").classList.add("hidden");
+                    document.getElementById("customerItems").innerHTML = "";
+                    customers.length = 0;
+                    ptCodeStored = "";
+                    document.getElementById("ptCode").disabled = false;
+                    document.getElementById("ptCodeSection").classList.remove("hidden");
+                    document.getElementById("appointmentForm").reset();
+                    toggleFields();
+                }, 4000);
             })
             .catch(error => {
-                alert("Lỗi khi kết nối tới Google Sheets: " + error);
+                alert("Lỗi khi kết nối tới Google Sheets: " + error.message);
+                console.error(error);
             });
         });
     </script>
