@@ -75,6 +75,7 @@
                 <button type="button" id="submitAll"
                     class="bg-green-500 text-white p-3 rounded-xl w-1/2 hover:bg-green-600 transition">Gửi Tất Cả</button>
             </div>
+            <p class="text-sm text-gray-500 text-center mt-2">Điền đầy đủ thông tin rồi nhấn "Thêm Khách Hàng" để thêm vào danh sách.</p>
         </form>
         <div id="result" class="mt-4 text-green-500 font-semibold text-center hidden"></div>
         <div id="customerList" class="mt-4 hidden">
@@ -158,7 +159,7 @@
 
         document.getElementById("submitAll").addEventListener("click", function () {
             if (customers.length === 0) {
-                alert("Chưa có khách hàng nào được thêm.");
+                alert("Chưa có khách hàng nào được thêm. Vui lòng điền thông tin và nhấn 'Thêm Khách Hàng' trước khi gửi.");
                 return;
             }
             const code = ptCodeStored;
